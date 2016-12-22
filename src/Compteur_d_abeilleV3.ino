@@ -1,11 +1,11 @@
 //Sensors array 
-int sensorGateA [19];                            //Alfa sensor array 
-int sensorGateB [19];                            //Beta sensor array
+int sensorGateA [20];                            //Alfa sensor array 
+int sensorGateB [20];                            //Beta sensor array
 
 //Sensor array states
-int gateALastStat [19];                          //Alfa sensor state
-int gateBLastStat [19];                          //Beta sensor state
-int gateSensPassag[19];                          //passage sens in the gate [0] = nothing, [1] = in, [2] = out.
+int gateALastStat [20];                          //Alfa sensor state
+int gateBLastStat [20];                          //Beta sensor state
+int gateSensPassag[20];                          //passage sens in the gate [0] = nothing, [1] = in, [2] = out.
 
 //Time variables
 unsigned long currentTime = 0;                    //run time of Mega
@@ -64,14 +64,23 @@ void loop() {
   currentTime = millis();
   
   
-
+  //==============================================================================================================
   // read all sensors:
-  //commencer compter à partir de 
+  //Start from physic pin 13 
   for (i = 13; i < 15; i ++) {
     //lecture des capteurs
     sensorGateA[i-13] = digitalRead(i);
     sensorGateB[i-13] = digitalRead(i + 20);
 
+    //test
+    /*if (sensorGateA[i-13] == 0) {
+      gateALastStat[i-13] = 0;
+      }
+    if (sensorGateB[i-13] == 0) {
+      gateBLastStat[i-13] = 0;
+      }
+      */
+      
     //reset gate memorys if gate Ax and Bx are both down ( need to avoid +1-1 bug)
     if (( sensorGateA[i-13] == 0) and ( sensorGateB[i-13] == 0)) {
       gateALastStat[i - 13] = 0;
@@ -81,19 +90,23 @@ void loop() {
       gateSensPassag[i - 13] = 0;
      }
 
-    // if gate A  = 1 so memory gate = 1. Also read time
-    if (( sensorGateA[i-13] == 1) and (gateALastStat[i-13] == 0) ) {
+    // if gate A  = 1 so gate memory  = 1. Also read time   ( -->[A]__[B]__  )
+    if (( sensorGateA[i-13] == 1) and gateALastStat[i-13] != 2) {
+
       gateALastStat[i-13] = 1;
-      gateSensPassag[i - 13] = 1;
+      //gateSensPassag[i - 13] = 1;
     gateStartPassage[i-13] = millis(); 
+      
      
     }
   
-    // if gate B  = 1 so memory gate = 1. Also read time
-    if (( sensorGateB[i-13] == 1) and (gateBLastStat[i-13] == 0) ){
+    // if gate B  = 1 so memory gate = 1. Also read time   ( __[A]__[B]<--  )
+    if (( sensorGateB[i-13] == 1) and (gateBLastStat[i-13] != 2)){
       gateBLastStat[i-13] = 1;
-      gateSensPassag[i - 13] = 2;
+      //gateSensPassag[i - 13] = 2;
     gateStartPassage[i-13] = millis();
+
+    
     }
   }
   
@@ -102,7 +115,7 @@ void loop() {
   //Compare input
   for (i = 0; i < 2; i++){
 
-  //=======================================================
+  //==============================================================================================================
   //Calculate what was the dirrection of passage
   if ((gateALastStat[i] == 1) and ( gateBLastStat[i] == 1)){            //If gate memories are in the transition state
 
@@ -110,13 +123,13 @@ void loop() {
     if (( (gateEndPassage[i] - gateStartPassage[i]) < delayGate ) and (nbGatePassages > 3)){
       //Reset gate memory
       gateALastStat[i] = 0;
-      gateBLastStat[i] = 0;
+      //gateBLastStat[i] = 0;
 
       continue;
     }
     
 
-    //If the gate A is 0 => understand it as exit
+    //If the gate A is 0 => understand it as exit ( --[A]--[B]--> )
     if  ((sensorGateA[i] == 0) and (sensorGateB[i] == 1)){
       
       //read exiting time
@@ -131,10 +144,10 @@ void loop() {
 
       //Reset gate memory
       gateALastStat[i] = 0;
-      gateBLastStat[i] = 0;
+      gateBLastStat[i] = 2;
     }
    
-    //si gate B est à 0 => considerer comme sortie
+    //si gate B est à 0 => considerer comme sortie ( <--[A]--[B]-- )
     if  ((sensorGateB[i] == 0) and (sensorGateA[i] == 1)){
        
       
@@ -150,11 +163,11 @@ void loop() {
       nbGatePassages++;
 
       //Reset gate memory
-    gateALastStat[i] = 0;
+    gateALastStat[i] = 2;
     gateBLastStat[i] = 0;
     }
     
-    //=======================================================
+    //==============================================================================================================
 
     
     //calculer la moyenne de passage
@@ -170,7 +183,6 @@ void loop() {
   //compter les abeilles dans la ruche
   if (outs <= ins) {
   count = ins - outs;
-  //test
   }
   /*else {
     count++
