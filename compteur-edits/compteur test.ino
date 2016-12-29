@@ -48,7 +48,7 @@ void setup() {
   Serial.begin(38400);                     //a bit different than the Arduino here.... 38400
 }
 
-//test
+
 void loop() {
   //Boot delay (startup sequence)
   if (bootReady != 0 ){
