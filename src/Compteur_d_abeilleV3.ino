@@ -32,7 +32,7 @@ int difference = 0;
 void setup() {                                   
   // initialize sensors as an input + set delay to 0:
   // le compte commence à partir de 13. DealayGate de 0 à 19.
-  for (i = 13; i < 15; i++){
+  for (i = 13; i < 33; i++){
     pinMode(i, INPUT);
     pinMode((i + 20), INPUT);
     
@@ -63,19 +63,12 @@ void loop() {
   //==============================================================================================================
   // read all sensors:
   //Start from physic pin 13 
-  for (i = 13; i < 15; i ++) {
+  for (i = 13; i < 33; i ++) {
     //lecture des capteurs
     sensorRangeA[i-13] = digitalRead(i);
     sensorRangeB[i-13] = digitalRead(i + 20);
 
-    //test
-    /*if (sensorRangeA[i-13] == 0) {
-      gateALastStat[i-13] = 0;
-      }
-    if (sensorRangeB[i-13] == 0) {
-      gateBLastStat[i-13] = 0;
-      }
-      */
+   
       
     //reset gate memorys if gate Ax and Bx are both down ( need to avoid +1-1 bug)
     if (( sensorRangeA[i-13] == 0) and ( sensorRangeB[i-13] == 0)) {
@@ -111,10 +104,7 @@ void loop() {
       gateBLastStat[i-13] = 0;
     }
 
-    /*/reset every portal from selfmaintein 
-    if ( sensorRangeB[i-13] == 0){
-      gateBLastStat[i-13] = 1;
-      } */
+    
   }
   
   
