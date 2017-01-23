@@ -235,7 +235,7 @@ void loop() {
   lcd.print(count);
 
  lcd.setCursor(0,1);            // move to the begining of the second line
- lcd_key = read_LCD_buttons();  // read the buttons
+ /*lcd_key = read_LCD_buttons();  // read the buttons
 
  switch (lcd_key)               // depending on which button was pushed, we perform an action
  {
@@ -269,7 +269,7 @@ void loop() {
      lcd.print("NONE  ");
      break;
      }
- }
+ } */
 //[LCD refesh]_________________________________________________
 
   //Serial print for debbuging++++++++++++++++++++++++++++++++++++++
