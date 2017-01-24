@@ -33,7 +33,7 @@ int read_LCD_buttons()
  if (adc_key_in < 450)  return btnDOWN; 
  if (adc_key_in < 650)  return btnLEFT; 
  if (adc_key_in < 850)  return btnSELECT;
-
+}
 //[LCD initilization]_________________________________________________
 
 
@@ -90,7 +90,7 @@ void setup() {
     gateBLastStat[i - 13] = 0;
     gateStartPassage[i-13] = 0;
     gateEndPassage[i-13] = 0;
-    gateSensPassag[i-19] = 0;
+ 
   }
 
   // initialize serial communication:
@@ -123,7 +123,7 @@ void loop() {
       gateBLastStat[i - 13] = 0;
       gateStartPassage[i-13] = 0;
       gateEndPassage[i- 13] = 0;
-      gateSensPassag[i - 13] = 0;
+      
      }
 
     // if gate A  = 1 so gate memory  = 1. Also read time   ( -->[A]__[B]__  )
@@ -217,7 +217,7 @@ void loop() {
   if (outs < ins) {
   count = ins - outs;
   }
-  else if (outs > (ins + difference){
+  else if (outs > (ins + difference)){
     difference = outs - ins;
     count = ins - outs + difference;
   }
@@ -302,5 +302,5 @@ void loop() {
     lcount = count;
   }
   
-  
+  } 
 }
