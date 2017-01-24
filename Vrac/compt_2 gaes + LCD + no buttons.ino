@@ -20,6 +20,22 @@ int adc_key_in  = 0;
 #define btnSELECT 4
 #define btnNONE   5
 
+/*/ read the buttons function
+//int read_LCD_buttons()
+{
+ adc_key_in = analogRead(0);      // read the value from the sensor 
+ // my buttons when read are centered at these valies: 0, 144, 329, 504, 741
+ // we add approx 50 to those values and check to see if we are close
+ if (adc_key_in > 1000) return btnNONE; // We make this the 1st option for speed reasons since it will be the most likely result
+ // For V1.1 us this threshold
+ if (adc_key_in < 50)   return btnRIGHT;  
+ if (adc_key_in < 250)  return btnUP; 
+ if (adc_key_in < 450)  return btnDOWN; 
+ if (adc_key_in < 650)  return btnLEFT; 
+ if (adc_key_in < 850)  return btnSELECT;
+}*/
+//[LCD initilization]_________________________________________________
+
 
 //[bees counter initilization]+++++++++++++++++++++++++++++++++++++++++++
 //Sensors array (physic state)
@@ -146,7 +162,7 @@ void loop() {
     if (( (gateEndPassage[i] - gateStartPassage[i]) < delayGate ) and (nbGatePassages > 3)){
       //Reset gate memory
       gateALastStat[i] = 0;
-     
+      //gateBLastStat[i] = 0;
 
       continue;
     }
@@ -210,7 +226,7 @@ void loop() {
   
 
 //[LCD refesh]_________________________________________________
-
+{
   lcd.setCursor(0,1);            
   lcd.print(ins);      
   lcd.setCursor(5,1);
@@ -218,8 +234,42 @@ void loop() {
   lcd.setCursor(10,1);
   lcd.print(count);
 
- 
- 
+ lcd.setCursor(0,1);            // move to the begining of the second line
+ //lcd_key = read_LCD_buttons();  // read the buttons
+
+ switch (lcd_key)               // depending on which button was pushed, we perform an action
+ {
+   case btnRIGHT:
+     {
+     lcd.print("RIGHT ");
+     break;
+     }
+   case btnLEFT:
+     {
+     lcd.print("LEFT   ");
+     break;
+     }
+   case btnUP:
+     {
+     lcd.print("UP    ");
+     break;
+     }
+   case btnDOWN:
+     {
+     lcd.print("DOWN  ");
+     break;
+     }
+   case btnSELECT:
+     {
+     lcd.print("SELECT");
+     break;
+     }
+     case btnNONE:
+     {
+     lcd.print("NONE  ");
+     break;
+     }
+ }
 //[LCD refesh]_________________________________________________
 
   //Serial print for debbuging++++++++++++++++++++++++++++++++++++++
@@ -252,5 +302,5 @@ void loop() {
     lcount = count;
   }
   
-  
+  }
 }
