@@ -33,7 +33,7 @@ int read_LCD_buttons()
  if (adc_key_in < 450)  return btnDOWN; 
  if (adc_key_in < 650)  return btnLEFT; 
  if (adc_key_in < 850)  return btnSELECT;
-}
+
 //[LCD initilization]_________________________________________________
 
 
@@ -80,7 +80,7 @@ void setup() {
 //[bees counter SETUP]++++++++++++++++++++++++++++++++++++++                                  
   // initialize sensors as an input + set delay to 0
   //start prom pin digital 13. 
-  for (i = 13; i < 33; i++){
+  for (i = 13; i < 15; i++){
     //read ditital inputs
     pinMode(i, INPUT);
     pinMode((i + 20), INPUT);
@@ -90,7 +90,7 @@ void setup() {
     gateBLastStat[i - 13] = 0;
     gateStartPassage[i-13] = 0;
     gateEndPassage[i-13] = 0;
- 
+    gateSensPassag[i-19] = 0;
   }
 
   // initialize serial communication:
@@ -112,7 +112,7 @@ void loop() {
   //==============================================================================================================
   // read all sensors:
   //Start from physic pin 13 
-  for (i = 13; i < 33; i ++) {
+  for (i = 13; i < 15; i ++) {
     //read sensors
     sensorRangeA[i-13] = digitalRead(i);
     sensorRangeB[i-13] = digitalRead(i + 20);
@@ -123,7 +123,7 @@ void loop() {
       gateBLastStat[i - 13] = 0;
       gateStartPassage[i-13] = 0;
       gateEndPassage[i- 13] = 0;
-      
+      gateSensPassag[i - 13] = 0;
      }
 
     // if gate A  = 1 so gate memory  = 1. Also read time   ( -->[A]__[B]__  )
@@ -217,7 +217,7 @@ void loop() {
   if (outs < ins) {
   count = ins - outs;
   }
-  else if (outs > (ins + difference)){
+  else if (outs > (ins + difference){
     difference = outs - ins;
     count = ins - outs + difference;
   }
@@ -269,7 +269,7 @@ void loop() {
      lcd.print("NONE  ");
      break;
      }
- }*/
+ } */
 //[LCD refesh]_________________________________________________
 
   //Serial print for debbuging++++++++++++++++++++++++++++++++++++++
@@ -302,5 +302,5 @@ void loop() {
     lcount = count;
   }
   
-  } 
+  }
 }

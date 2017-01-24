@@ -20,8 +20,8 @@ int adc_key_in  = 0;
 #define btnSELECT 4
 #define btnNONE   5
 
-// read the buttons function
-int read_LCD_buttons()
+/*/ read the buttons function
+//int read_LCD_buttons()
 {
  adc_key_in = analogRead(0);      // read the value from the sensor 
  // my buttons when read are centered at these valies: 0, 144, 329, 504, 741
@@ -33,7 +33,7 @@ int read_LCD_buttons()
  if (adc_key_in < 450)  return btnDOWN; 
  if (adc_key_in < 650)  return btnLEFT; 
  if (adc_key_in < 850)  return btnSELECT;
-}
+}*/
 //[LCD initilization]_________________________________________________
 
 
@@ -90,7 +90,7 @@ void setup() {
     gateBLastStat[i - 13] = 0;
     gateStartPassage[i-13] = 0;
     gateEndPassage[i-13] = 0;
- 
+    //gateSensPassag[i-19] = 0;
   }
 
   // initialize serial communication:
@@ -123,7 +123,7 @@ void loop() {
       gateBLastStat[i - 13] = 0;
       gateStartPassage[i-13] = 0;
       gateEndPassage[i- 13] = 0;
-      
+      //gateSensPassag[i - 13] = 0;
      }
 
     // if gate A  = 1 so gate memory  = 1. Also read time   ( -->[A]__[B]__  )
@@ -235,7 +235,7 @@ void loop() {
   lcd.print(count);
 
  lcd.setCursor(0,1);            // move to the begining of the second line
- /*lcd_key = read_LCD_buttons();  // read the buttons
+ //lcd_key = read_LCD_buttons();  // read the buttons
 
  switch (lcd_key)               // depending on which button was pushed, we perform an action
  {
@@ -269,7 +269,7 @@ void loop() {
      lcd.print("NONE  ");
      break;
      }
- }*/
+ }
 //[LCD refesh]_________________________________________________
 
   //Serial print for debbuging++++++++++++++++++++++++++++++++++++++
@@ -302,5 +302,5 @@ void loop() {
     lcount = count;
   }
   
-  } 
+  }
 }
