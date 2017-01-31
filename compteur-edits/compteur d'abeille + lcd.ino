@@ -20,7 +20,7 @@ int adc_key_in  = 0;
 #define btnSELECT 4
 #define btnNONE   5
 
-
+//test
 //[bees counter initilization]+++++++++++++++++++++++++++++++++++++++++++
 //Sensors array (physic state)
 int sensorRangeA [20];                            //Alfa sensor array 
